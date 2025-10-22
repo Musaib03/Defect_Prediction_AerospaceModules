@@ -1,0 +1,37 @@
+Recommended features for CM1 software defect prediction:
+
+Dataset: CM1 Preprocessed
+Total samples: 498
+Total features available: 21
+Defect rate: 9.84%
+
+TOP 15 RECOMMENDED FEATURES:
+==================================================
+ 1. loc             (Score: 4.5)
+ 2. lOComment       (Score: 4.5)
+ 3. uniq_Opnd       (Score: 4.5)
+ 4. i               (Score: 4.5)
+ 5. v               (Score: 3.5)
+ 6. uniq_Op         (Score: 3.5)
+ 7. total_Opnd      (Score: 3.5)
+ 8. b               (Score: 3.5)
+ 9. lOBlank         (Score: 3.0)
+10. l               (Score: 2.0)
+11. lOCode          (Score: 2.0)
+12. e               (Score: 1.5)
+13. ev(g)           (Score: 0.5)
+14. total_Op        (Score: 0.5)
+15. n               (Score: 0.5)
+
+
+FEATURE SELECTION METHOD SUMMARY:
+==================================================
+1. ANOVA F-test (univariate)
+2. Mutual Information (univariate)
+3. Random Forest Importance
+4. Extra Trees Importance
+5. Recursive Feature Elimination
+6. Correlation Analysis (penalty for high correlation)
+
+Score = Number of methods that selected the feature (max=5)
+Features with high correlation (>0.8) receive -0.5 penalty

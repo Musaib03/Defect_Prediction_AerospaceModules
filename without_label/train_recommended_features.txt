@@ -1,0 +1,23 @@
+Top Features Selected from Train_Features.csv
+==================================================
+
+Selection Method: Autoencoder-based Feature Importance
+Number of features selected: 10
+Total features available: 21
+
+Selected Features (in order of importance):
+----------------------------------------
+ 1. HALSTEAD_LEVEL            (Score: 10.0787)
+ 2. ESSENTIAL_COMPLEXITY      (Score: 9.6497)
+ 3. HALSTEAD_ERROR_EST        (Score: 9.4412)
+ 4. LOC_BLANK                 (Score: 9.4393)
+ 5. LOC_COMMENTS              (Score: 9.3855)
+ 6. LOC_EXECUTABLE            (Score: 9.1689)
+ 7. NUM_UNIQUE_OPERATORS      (Score: 9.1668)
+ 8. HALSTEAD_EFFORT           (Score: 8.9378)
+ 9. HALSTEAD_VOLUME           (Score: 8.9294)
+10. NUM_OPERATORS             (Score: 8.9167)
+
+==================================================
+Note: Features are ranked by their importance scores derived from
+autoencoder weights. Higher scores indicate more important features.
