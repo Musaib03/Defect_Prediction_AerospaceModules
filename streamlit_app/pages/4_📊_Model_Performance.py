@@ -192,173 +192,168 @@ with cm_tab3:
 st.markdown("---")
 
 # ROC Curves
-st.markdown("### 📈 ROC Curves")
+# st.markdown("### 📈 ROC Curves")
 
-st.markdown("""
-**ROC (Receiver Operating Characteristic) Curves** show the trade-off between True Positive Rate and False Positive Rate.
-- **Closer to top-left corner** = Better performance
-- **AUC (Area Under Curve)** = Overall discrimination ability
-- **AUC = 1.0** = Perfect classifier (our Neural Network achieved this!)
-""")
+# st.markdown("""
+# **ROC (Receiver Operating Characteristic) Curves** show the trade-off between True Positive Rate and False Positive Rate.
+# - **Closer to top-left corner** = Better performance
+# - **AUC (Area Under Curve)** = Overall discrimination ability
+# - **AUC = 1.0** = Perfect classifier (our Neural Network achieved this!)
+# """)
 
-roc_data = {model: metrics['auc_roc'] for model, metrics in MODEL_METRICS.items()}
-fig_roc = plot_roc_curves(roc_data)
-st.plotly_chart(fig_roc, use_container_width=True)
+# roc_data = {model: metrics['auc_roc'] for model, metrics in MODEL_METRICS.items()}
+# fig_roc = plot_roc_curves(roc_data)
+# st.plotly_chart(fig_roc, use_container_width=True)
 
-st.markdown("---")
+# st.markdown("---")
 
 # Training approach
-st.markdown("### 🔬 Training Methodology")
+# st.markdown("### 🔬 Training Methodology")
 
-method_tab1, method_tab2, method_tab3 = st.tabs(["Cross-Validation", "Hyperparameters", "Evaluation Metrics"])
+# method_tab1, method_tab2, method_tab3 = st.tabs(["Cross-Validation", "Hyperparameters", "Evaluation Metrics"])
 
-with method_tab1:
-    st.markdown("""
-    #### 5-Fold Stratified Cross-Validation
+# with method_tab1:
+#     st.markdown("""
+#     #### 5-Fold Stratified Cross-Validation
 
-    **Process**:
-    1. Split training data into 5 equal folds
-    2. For each fold:
-       - Train on 4 folds (80%)
-       - Validate on 1 fold (20%)
-    3. Repeat 5 times, using each fold as validation once
-    4. Average performance across all 5 folds
+#     **Process**:
+#     1. Split training data into 5 equal folds
+#     2. For each fold:
+#        - Train on 4 folds (80%)
+#        - Validate on 1 fold (20%)
+#     3. Repeat 5 times, using each fold as validation once
+#     4. Average performance across all 5 folds
 
-    **Benefits**:
-    - ✅ More robust performance estimate
-    - ✅ Reduces overfitting to single train/val split
-    - ✅ Uses all data for both training and validation
-    - ✅ Stratified ensures class balance in each fold
+#     **Benefits**:
+#     - ✅ More robust performance estimate
+#     - ✅ Reduces overfitting to single train/val split
+#     - ✅ Uses all data for both training and validation
+#     - ✅ Stratified ensures class balance in each fold
 
-    **Final Model**: Trained on entire training set after CV validation
-    """)
+#     **Final Model**: Trained on entire training set after CV validation
+#     """)
 
-with method_tab2:
-    st.markdown("""
-    #### Hyperparameter Tuning
+# with method_tab2:
+#     st.markdown("""
+#     #### Hyperparameter Tuning
 
-    **Neural Network**:
-    - Hidden layers: [100, 50] neurons
-    - Activation: ReLU
-    - Optimizer: Adam
-    - Learning rate: 0.001
-    - Epochs: 200 (with early stopping)
-    - Batch size: 32
+#     **Neural Network**:
+#     - Hidden layers: [100, 50] neurons
+#     - Activation: ReLU
+#     - Optimizer: Adam
+#     - Learning rate: 0.001
+#     - Epochs: 200 (with early stopping)
+#     - Batch size: 32
 
-    **Random Forest**:
-    - n_estimators: 100
-    - max_depth: None (full trees)
-    - min_samples_split: 2
-    - min_samples_leaf: 1
-    - max_features: 'sqrt'
+#     **Random Forest**:
+#     - n_estimators: 100
+#     - max_depth: None (full trees)
+#     - min_samples_split: 2
+#     - min_samples_leaf: 1
+#     - max_features: 'sqrt'
 
-    **Gradient Boosting**:
-    - n_estimators: 100
-    - learning_rate: 0.1
-    - max_depth: 3
-    - subsample: 0.8
-    - min_samples_split: 2
+#     **Gradient Boosting**:
+#     - n_estimators: 100
+#     - learning_rate: 0.1
+#     - max_depth: 3
+#     - subsample: 0.8
+#     - min_samples_split: 2
 
-    All hyperparameters were tuned using grid search or random search with cross-validation.
-    """)
+#     All hyperparameters were tuned using grid search or random search with cross-validation.
+#     """)
 
-with method_tab3:
-    st.markdown("""
-    #### Evaluation Metrics Explained
+# with method_tab3:
+#     st.markdown("""
+#     #### Evaluation Metrics Explained
 
-    **Accuracy**: (TP + TN) / (TP + TN + FP + FN)
-    - Percentage of correct predictions
-    - Simple, but can be misleading with imbalanced data
+#     **Accuracy**: (TP + TN) / (TP + TN + FP + FN)
+#     - Percentage of correct predictions
+#     - Simple, but can be misleading with imbalanced data
 
-    **Precision**: TP / (TP + FP)
-    - Of all predicted defects, how many were actually defective?
-    - Important for minimizing false alarms
+#     **Precision**: TP / (TP + FP)
+#     - Of all predicted defects, how many were actually defective?
+#     - Important for minimizing false alarms
 
-    **Recall (Sensitivity)**: TP / (TP + FN)
-    - Of all actual defects, how many did we detect?
-    - Critical for safety-critical aerospace applications
+#     **Recall (Sensitivity)**: TP / (TP + FN)
+#     - Of all actual defects, how many did we detect?
+#     - Critical for safety-critical aerospace applications
 
-    **F1-Score**: 2 × (Precision × Recall) / (Precision + Recall)
-    - Harmonic mean of precision and recall
-    - Balances both metrics
-    - Best overall measure for classification performance
+#     **F1-Score**: 2 × (Precision × Recall) / (Precision + Recall)
+#     - Harmonic mean of precision and recall
+#     - Balances both metrics
+#     - Best overall measure for classification performance
 
-    **AUC-ROC**: Area under ROC curve
-    - Measures ability to distinguish between classes
-    - 1.0 = Perfect discrimination
-    - 0.5 = Random guessing
+#     **Our Goal**: Maximize all metrics, especially recall (don't miss defects!)
+#     """)
 
-    **Our Goal**: Maximize all metrics, especially recall (don't miss defects!)
-    """)
+# st.markdown("---")
 
-st.markdown("---")
+# # Model selection rationale
+# st.markdown("### 🤔 Why Neural Network is the Best?")
 
-# Model selection rationale
-st.markdown("### 🤔 Why Neural Network is the Best?")
+# st.markdown("""
+# <div class="success-box">
 
-st.markdown("""
-<div class="success-box">
+# #### Neural Network Advantages
 
-#### Neural Network Advantages
+# **Performance**:
+# - ✅ Highest accuracy (99.70%)
+# - ✅ Perfect AUC-ROC (1.0)
+# - ✅ Zero false negatives (100% recall)
+# - ✅ Detected all 109 defects in test set
 
-**Performance**:
-- ✅ Highest accuracy (99.70%)
-- ✅ Perfect AUC-ROC (1.0)
-- ✅ Zero false negatives (100% recall)
-- ✅ Detected all 109 defects in test set
+# **Architecture**:
+# - Optimal depth: 2 hidden layers (100, 50 neurons)
+# - Handles non-linear relationships between features
+# - Learns complex patterns in defect indicators
+# - Dropout and regularization prevent overfitting
 
-**Architecture**:
-- Optimal depth: 2 hidden layers (100, 50 neurons)
-- Handles non-linear relationships between features
-- Learns complex patterns in defect indicators
-- Dropout and regularization prevent overfitting
+# **Practical Benefits**:
+# - Fast inference time (< 1ms per prediction)
+# - Scales well to larger datasets
+# - Can be easily deployed for real-time prediction
+# - Provides probability scores for risk assessment
 
-**Practical Benefits**:
-- Fast inference time (< 1ms per prediction)
-- Scales well to larger datasets
-- Can be easily deployed for real-time prediction
-- Provides probability scores for risk assessment
+# **Trade-off**: Less interpret able than decision trees, but performance gap justifies the choice
 
-**Trade-off**: Less interpret able than decision trees, but performance gap justifies the choice
+# </div>
+# """, unsafe_allow_html=True)
 
-</div>
-""", unsafe_allow_html=True)
+# col1, col2 = st.columns(2)
 
-col1, col2 = st.columns(2)
+# # with col1:
+#     st.markdown("""
+#     #### Random Forest - Runner-up
 
-with col1:
-    st.markdown("""
-    #### Random Forest - Runner-up
+#     **Strengths**:
+#     - High performance (99.40%)
+#     - Very interpretable
+#     - Feature importance analysis
+#     - Robust to outliers
 
-    **Strengths**:
-    - High performance (99.40%)
-    - Very interpretable
-    - Feature importance analysis
-    - Robust to outliers
+#     **Why 2nd**:
+#     - Slightly lower accuracy
+#     - Higher false positives (3 vs 2)
+#     - Slower prediction time
+#     """)
 
-    **Why 2nd**:
-    - Slightly lower accuracy
-    - Higher false positives (3 vs 2)
-    - Slower prediction time
-    """)
+# with col2:
+#     st.markdown("""
+#     #### Gradient Boosting - 3rd Place
 
-with col2:
-    st.markdown("""
-    #### Gradient Boosting - 3rd Place
+#     **Strengths**:
+#     - Still excellent (99.11%)
+#     - Handles class imbalance well
+#     - Adaptive boosting
+#     - Strong on edge cases
 
-    **Strengths**:
-    - Still excellent (99.11%)
-    - Handles class imbalance well
-    - Adaptive boosting
-    - Strong on edge cases
+#     **Why 3rd**:
+#     - More false negatives (2)
+#     - Longer training time
+#     - Sensitive to hyperparameters
+#     """)
 
-    **Why 3rd**:
-    - More false negatives (2)
-    - Longer training time
-    - Sensitive to hyperparameters
-    """)
-
-st.markdown("---")
+# st.markdown("---")
 
 # All models evaluated
 st.markdown("### 📋 All 10 Models Evaluated")

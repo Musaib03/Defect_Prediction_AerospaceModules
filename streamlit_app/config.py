@@ -148,7 +148,7 @@ CUSTOM_CSS = """
     }
 
     .success-box {
-        background-color: #d4edda;
+        background-color: #000000;
         border-left: 5px solid #2ca02c;
         padding: 1rem;
         border-radius: 5px;
@@ -161,11 +161,17 @@ CUSTOM_CSS = """
         padding: 1rem;
         border-radius: 5px;
         margin: 1rem 0;
+        color: #000000;
+    }
+
+    .info-box * {
+        color: #000000;
     }
 
     .warning-box {
         background-color: #fff3cd;
         border-left: 5px solid #ffa600;
+        color: #000000;
         padding: 1rem;
         border-radius: 5px;
         margin: 1rem 0;

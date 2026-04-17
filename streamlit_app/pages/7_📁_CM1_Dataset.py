@@ -387,11 +387,11 @@ with st.expander("View Sample CM1 Data", expanded=False):
             st.dataframe(cm1_data.head(10), use_container_width=True)
 
             # Show class distribution
-            if 'Defective' in cm1_data.columns or 'defects' in cm1_data.columns:
-                defect_col = 'Defective' if 'Defective' in cm1_data.columns else 'defects'
-                class_counts = cm1_data[defect_col].value_counts()
-                st.markdown("**Class Distribution:**")
-                st.write(class_counts)
+            # if 'Defective' in cm1_data.columns or 'defects' in cm1_data.columns:
+            #     defect_col = 'Defective' if 'Defective' in cm1_data.columns else 'defects'
+            #     class_counts = cm1_data[defect_col].value_counts()
+            #     st.markdown("**Class Distribution:**")
+            #     st.write(class_counts)
         else:
             st.info("CM1 data file not found in expected location")
     except Exception as e:

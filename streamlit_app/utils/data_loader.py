@@ -54,9 +54,19 @@ def load_recommended_features():
         with open(PATHS['train_recommended_features'], 'r') as f:
             for line in f:
                 line = line.strip()
-                if line and ':' in line:
-                    feature, score = line.split(':')
-                    features_dict[feature.strip()] = float(score.strip())
+                # Skip empty lines, headers, or comment lines
+                if not line or line.startswith('#') or 'Feature Importance' in line or 'importance' in line.lower():
+                    continue
+                if ':' in line:
+                    parts = line.split(':', 1)
+                    if len(parts) == 2:
+                        feature, score = parts
+                        try:
+                            # Try to convert score to float
+                            features_dict[feature.strip()] = float(score.strip())
+                        except ValueError:
+                            # Skip lines where score is not a number
+                            continue
         return features_dict
     except Exception as e:
         st.error(f"Error loading recommended features: {e}")
@@ -148,9 +158,19 @@ def load_cm1_recommended_features():
         with open(PATHS['cm1_recommended_features'], 'r') as f:
             for line in f:
                 line = line.strip()
-                if line and ':' in line:
-                    feature, score = line.split(':')
-                    features_dict[feature.strip()] = float(score.strip())
+                # Skip empty lines, headers, or comment lines
+                if not line or line.startswith('#') or 'Feature Importance' in line or 'importance' in line.lower():
+                    continue
+                if ':' in line:
+                    parts = line.split(':', 1)
+                    if len(parts) == 2:
+                        feature, score = parts
+                        try:
+                            # Try to convert score to float
+                            features_dict[feature.strip()] = float(score.strip())
+                        except ValueError:
+                            # Skip lines where score is not a number
+                            continue
         return features_dict
     except Exception as e:
         st.error(f"Error loading CM1 recommended features: {e}")

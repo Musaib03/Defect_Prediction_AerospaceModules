@@ -70,67 +70,67 @@ with col4:
         help="Neural Network accuracy"
     )
 
-st.markdown("---")
+# st.markdown("---")
 
-# Interactive threshold adjuster
-st.markdown("### 🎚️ Interactive Defect Threshold")
+# # Interactive threshold adjuster
+# st.markdown("### 🎚️ Interactive Defect Threshold")
 
-st.markdown("""
-Adjust the probability threshold to see how it affects defect detection.
-- **Lower threshold**: Detect more potential defects (higher recall, more false positives)
-- **Higher threshold**: Only flag high-confidence defects (higher precision, might miss some)
-""")
+# st.markdown("""
+# Adjust the probability threshold to see how it affects defect detection.
+# - **Lower threshold**: Detect more potential defects (higher recall, more false positives)
+# - **Higher threshold**: Only flag high-confidence defects (higher precision, might miss some)
+# """)
 
-threshold = st.slider(
-    "Defect Probability Threshold",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.5,
-    step=0.05,
-    format="%.2f",
-    help="Modules with defect probability ≥ threshold are flagged as defective"
-)
+# threshold = st.slider(
+#     "Defect Probability Threshold",
+#     min_value=0.0,
+#     max_value=1.0,
+#     value=0.5,
+#     step=0.05,
+#     format="%.2f",
+#     help="Modules with defect probability ≥ threshold are flagged as defective"
+# )
 
-# Simulate predictions (in production, load actual predictions)
-np.random.seed(42)
-defect_probs = np.concatenate([
-    np.random.beta(8, 2, DATASET_CONFIG['predicted_defects_test']),  # Defective: high probs
-    np.random.beta(2, 8, DATASET_CONFIG['test_samples'] - DATASET_CONFIG['predicted_defects_test'])  # Non-defective: low probs
-])
-np.random.shuffle(defect_probs)
+# # Simulate predictions (in production, load actual predictions)
+# np.random.seed(42)
+# defect_probs = np.concatenate([
+#     np.random.beta(8, 2, DATASET_CONFIG['predicted_defects_test']),  # Defective: high probs
+#     np.random.beta(2, 8, DATASET_CONFIG['test_samples'] - DATASET_CONFIG['predicted_defects_test'])  # Non-defective: low probs
+# ])
+# np.random.shuffle(defect_probs)
 
-detected_at_threshold = np.sum(defect_probs >= threshold)
+# detected_at_threshold = np.sum(defect_probs >= threshold)
 
-col1, col2, col3 = st.columns(3)
+# col1, col2, col3 = st.columns(3)
 
-with col1:
-    st.metric(
-        "Defects Detected",
-        f"{detected_at_threshold}",
-        delta=f"{detected_at_threshold - DATASET_CONFIG['predicted_defects_test']:+d} vs default"
-    )
+# with col1:
+#     st.metric(
+#         "Defects Detected",
+#         f"{detected_at_threshold}",
+#         delta=f"{detected_at_threshold - DATASET_CONFIG['predicted_defects_test']:+d} vs default"
+#     )
 
-with col2:
-    detection_rate = detected_at_threshold / DATASET_CONFIG['test_samples']
-    st.metric(
-        "Detection Rate",
-        f"{detection_rate:.1%}",
-        delta=f"{(detection_rate - DATASET_CONFIG['predicted_defect_rate_test']) * 100:+.1f}%"
-    )
+# with col2:
+#     detection_rate = detected_at_threshold / DATASET_CONFIG['test_samples']
+#     st.metric(
+#         "Detection Rate",
+#         f"{detection_rate:.1%}",
+#         delta=f"{(detection_rate - DATASET_CONFIG['predicted_defect_rate_test']) * 100:+.1f}%"
+#     )
 
-with col3:
-    if threshold < 0.3:
-        status = "⚠️ Too Sensitive"
-        color = "warning"
-    elif threshold > 0.7:
-        status = "⚠️ Too Conservative"
-        color = "warning"
-    else:
-        status = "✅ Balanced"
-        color = "success"
-    st.metric("Threshold Status", status)
+# with col3:
+#     if threshold < 0.3:
+#         status = "⚠️ Too Sensitive"
+#         color = "warning"
+#     elif threshold > 0.7:
+#         status = "⚠️ Too Conservative"
+#         color = "warning"
+#     else:
+#         status = "✅ Balanced"
+#         color = "success"
+#     st.metric("Threshold Status", status)
 
-st.markdown("---")
+# st.markdown("---")
 
 # Detected defects table
 st.markdown("### 📋 Detected Defects Table")
@@ -178,61 +178,61 @@ st.download_button(
 st.markdown("---")
 
 # Feature distributions
-st.markdown("### 📊 Feature Distributions by Defect Status")
+# st.markdown("### 📊 Feature Distributions by Defect Status")
 
-st.markdown("""
-Compare how features differ between defective and non-defective modules.
-**Higher values** in defective modules indicate that feature is a **strong defect indicator**.
-""")
+# st.markdown("""
+# Compare how features differ between defective and non-defective modules.
+# **Higher values** in defective modules indicate that feature is a **strong defect indicator**.
+# """)
 
-# Feature selector
-selected_feature = st.selectbox(
-    "Select feature to analyze",
-    FEATURE_CONFIG['top_features'],
-    index=0
-)
+# # Feature selector
+# selected_feature = st.selectbox(
+#     "Select feature to analyze",
+#     FEATURE_CONFIG['top_features'],
+#     index=0
+# )
 
-# Create sample distribution data
-np.random.seed(42)
-defective_values = np.random.gamma(4, 2, 109)
-non_defective_values = np.random.gamma(2, 1, 310)
+# # Create sample distribution data
+# np.random.seed(42)
+# defective_values = np.random.gamma(4, 2, 109)
+# non_defective_values = np.random.gamma(2, 1, 310)
 
-sample_df = pd.DataFrame({
-    selected_feature: np.concatenate([defective_values, non_defective_values]),
-    'defect': [1]*109 + [0]*310
-})
+# sample_df = pd.DataFrame({
+#     selected_feature: np.concatenate([defective_values, non_defective_values]),
+#     'defect': [1]*109 + [0]*310
+# })
 
-fig_dist = plot_feature_distribution(sample_df, selected_feature)
-st.plotly_chart(fig_dist, use_container_width=True)
+# fig_dist = plot_feature_distribution(sample_df, selected_feature)
+# st.plotly_chart(fig_dist, use_container_width=True)
 
-# Statistical comparison
-col1, col2, col3 = st.columns(3)
+# # Statistical comparison
+# col1, col2, col3 = st.columns(3)
 
-with col1:
-    defect_mean = defective_values.mean()
-    st.metric(
-        f"Defective Mean",
-        f"{defect_mean:.2f}",
-        help=f"Average {selected_feature} for defective modules"
-    )
+# with col1:
+#     defect_mean = defective_values.mean()
+#     st.metric(
+#         f"Defective Mean",
+#         f"{defect_mean:.2f}",
+#         help=f"Average {selected_feature} for defective modules"
+#     )
 
-with col2:
-    non_defect_mean = non_defective_values.mean()
-    st.metric(
-        f"Non-Defective Mean",
-        f"{non_defect_mean:.2f}",
-        help=f"Average {selected_feature} for non-defective modules"
-    )
+# with col2:
+#     non_defect_mean = non_defective_values.mean()
+#     st.metric(
+#         f"Non-Defective Mean",
+#         f"{non_defect_mean:.2f}",
+#         help=f"Average {selected_feature} for non-defective modules"
+#     )
 
-with col3:
-    difference = ((defect_mean - non_defect_mean) / non_defect_mean) * 100
-    st.metric(
-        "Difference",
-        f"{difference:+.1f}%",
-        delta="Higher in defective" if difference > 0 else "Lower in defective"
-    )
+# with col3:
+#     difference = ((defect_mean - non_defect_mean) / non_defect_mean) * 100
+#     st.metric(
+#         "Difference",
+#         f"{difference:+.1f}%",
+#         delta="Higher in defective" if difference > 0 else "Lower in defective"
+#     )
 
-st.markdown("---")
+# st.markdown("---")
 
 # Top defect indicators
 st.markdown("### 🔝 Top Defect Indicators")

@@ -1,6 +1,6 @@
 # Streamlit UI for Aerospace Software Defect Prediction
 # Core Dependencies
-
+# run project using streamlit run app.py
 streamlit>=1.31.0
 pandas>=2.0.0
 numpy>=1.24.0

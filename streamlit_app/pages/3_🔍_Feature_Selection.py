@@ -46,126 +46,21 @@ st.markdown("---")
 # Feature selection methods
 st.markdown("### 🔬 Feature Selection Methods Used")
 
+# st.markdown("""
+# We employed **6 different feature selection techniques** to ensure robust feature selection:
+# """)
+
+# method_tab1, method_tab2, method_tab3, method_tab4, method_tab5, method_tab6 = st.tabs([
+#     "🧠 Autoencoder"
+    # "📊 ANOVA F-value",
+    # "🔗 Mutual Information",
+    # "🌲 Random Forest",
+    # "🌳 Extra Trees",
+    # "🔄 RFE"
+# ])
+
+# with method_tab1:
 st.markdown("""
-We employed **6 different feature selection techniques** to ensure robust feature selection:
-""")
-
-method_tab1, method_tab2, method_tab3, method_tab4, method_tab5, method_tab6 = st.tabs([
-    "📊 ANOVA F-value",
-    "🔗 Mutual Information",
-    "🌲 Random Forest",
-    "🌳 Extra Trees",
-    "🔄 RFE",
-    "🧠 Autoencoder"
-])
-
-with method_tab1:
-    st.markdown("""
-    #### ANOVA F-value (f_classif)
-
-    **Type**: Univariate statistical test
-
-    **How it works**:
-    - Measures linear dependency between each feature and the target
-    - Computes F-statistic (variance between classes / variance within classes)
-    - Higher F-value = stronger relationship with defect prediction
-
-    **Strengths**:
-    - Fast and simple
-    - Good for linear relationships
-    - Statistically interpretable
-
-    **Limitations**:
-    - Only captures linear dependencies
-    - Treats features independently
-    """)
-
-with method_tab2:
-    st.markdown("""
-    #### Mutual Information
-
-    **Type**: Information-theoretic measure
-
-    **How it works**:
-    - Measures mutual dependence between feature and target
-    - Captures both linear AND non-linear relationships
-    - Based on entropy reduction when knowing feature value
-
-    **Strengths**:
-    - Detects non-linear patterns
-    - More general than correlation
-    - No assumptions about relationship form
-
-    **Limitations**:
-    - Computationally more expensive
-    - Requires careful parameter tuning
-    """)
-
-with method_tab3:
-    st.markdown("""
-    #### Random Forest Importance
-
-    **Type**: Tree-based ensemble method
-
-    **How it works**:
-    - Trains Random Forest classifier
-    - Measures feature importance based on information gain
-    - Averages importance across all trees
-
-    **Strengths**:
-    - Handles non-linear relationships
-    - Accounts for feature interactions
-    - Robust to outliers
-
-    **Limitations**:
-    - Can be biased toward high-cardinality features
-    - Requires training full model
-    """)
-
-with method_tab4:
-    st.markdown("""
-    #### Extra Trees Importance
-
-    **Type**: Randomized tree ensemble
-
-    **How it works**:
-    - Similar to Random Forest but with random splits
-    - More randomization reduces overfitting
-    - Computes feature importance from split quality
-
-    **Strengths**:
-    - Less prone to overfitting than RF
-    - Faster training (random splits)
-    - Good variance reduction
-
-    **Limitations**:
-    - May require more trees
-    - Less precise split points
-    """)
-
-with method_tab5:
-    st.markdown("""
-    #### RFE (Recursive Feature Elimination)
-
-    **Type**: Wrapper method
-
-    **How it works**:
-    - Trains model with all features
-    - Recursively removes least important feature
-    - Repeats until desired number of features remains
-
-    **Strengths**:
-    - Considers feature interactions
-    - Model-specific feature selection
-    - Systematic elimination process
-
-    **Limitations**:
-    - Computationally expensive (trains many models)
-    - Can be slow for large datasets
-    """)
-
-with method_tab6:
-    st.markdown("""
     #### Autoencoder-based Selection
 
     **Type**: Neural network dimensionality reduction
@@ -185,6 +80,112 @@ with method_tab6:
     - Less interpretable
     - Hyperparameter sensitive
     """)
+
+# with method_tab2:
+#     st.markdown("""
+#     #### ANOVA F-value (f_classif)
+
+#     **Type**: Univariate statistical test
+
+#     **How it works**:
+#     - Measures linear dependency between each feature and the target
+#     - Computes F-statistic (variance between classes / variance within classes)
+#     - Higher F-value = stronger relationship with defect prediction
+
+#     **Strengths**:
+#     - Fast and simple
+#     - Good for linear relationships
+#     - Statistically interpretable
+
+#     **Limitations**:
+#     - Only captures linear dependencies
+#     - Treats features independently
+#     """)
+
+# with method_tab3:
+#     st.markdown("""
+#     #### Mutual Information
+
+#     **Type**: Information-theoretic measure
+
+#     **How it works**:
+#     - Measures mutual dependence between feature and target
+#     - Captures both linear AND non-linear relationships
+#     - Based on entropy reduction when knowing feature value
+
+#     **Strengths**:
+#     - Detects non-linear patterns
+#     - More general than correlation
+#     - No assumptions about relationship form
+
+#     **Limitations**:
+#     - Computationally more expensive
+#     - Requires careful parameter tuning
+#     """)
+
+# with method_tab4:
+#     st.markdown("""
+#     #### Random Forest Importance
+
+#     **Type**: Tree-based ensemble method
+
+#     **How it works**:
+#     - Trains Random Forest classifier
+#     - Measures feature importance based on information gain
+#     - Averages importance across all trees
+
+#     **Strengths**:
+#     - Handles non-linear relationships
+#     - Accounts for feature interactions
+#     - Robust to outliers
+
+#     **Limitations**:
+#     - Can be biased toward high-cardinality features
+#     - Requires training full model
+#     """)
+
+# with method_tab5:
+#     st.markdown("""
+#     #### Extra Trees Importance
+
+#     **Type**: Randomized tree ensemble
+
+#     **How it works**:
+#     - Similar to Random Forest but with random splits
+#     - More randomization reduces overfitting
+#     - Computes feature importance from split quality
+
+#     **Strengths**:
+#     - Less prone to overfitting than RF
+#     - Faster training (random splits)
+#     - Good variance reduction
+
+#     **Limitations**:
+#     - May require more trees
+#     - Less precise split points
+#     """)
+
+# with method_tab6:
+#     st.markdown("""
+#     #### RFE (Recursive Feature Elimination)
+
+#     **Type**: Wrapper method
+
+#     **How it works**:
+#     - Trains model with all features
+#     - Recursively removes least important feature
+#     - Repeats until desired number of features remains
+
+#     **Strengths**:
+#     - Considers feature interactions
+#     - Model-specific feature selection
+#     - Systematic elimination process
+
+#     **Limitations**:
+#     - Computationally expensive (trains many models)
+#     - Can be slow for large datasets
+#     """)
+
 
 st.markdown("---")
 
@@ -232,23 +233,23 @@ try:
         top_features_sorted = sorted(recommended_features.items(), key=lambda x: x[1], reverse=True)
         mid_point = len(top_features_sorted) // 2
 
-        with col1:
-            for idx, (feature, score) in enumerate(top_features_sorted[:mid_point], 1):
-                st.markdown(f"""
-                <div class="metric-card">
-                <strong>{idx}. {feature}</strong><br/>
-                <small>Importance Score: {score:.2f}</small>
-                </div>
-                """, unsafe_allow_html=True)
+        # with col1:
+        #     for idx, (feature, score) in enumerate(top_features_sorted[:mid_point], 1):
+        #         st.markdown(f"""
+        #         <div class="metric-card">
+        #         <strong>{idx}. {feature}</strong><br/>
+        #         <small>Importance Score: {score:.2f}</small>
+        #         </div>
+        #         """, unsafe_allow_html=True)
 
-        with col2:
-            for idx, (feature, score) in enumerate(top_features_sorted[mid_point:], mid_point + 1):
-                st.markdown(f"""
-                <div class="metric-card">
-                <strong>{idx}. {feature}</strong><br/>
-                <small>Importance Score: {score:.2f}</small>
-                </div>
-                """, unsafe_allow_html=True)
+        # with col2:
+        #     for idx, (feature, score) in enumerate(top_features_sorted[mid_point:], mid_point + 1):
+        #         st.markdown(f"""
+        #         <div class="metric-card">
+        #         <strong>{idx}. {feature}</strong><br/>
+        #         <small>Importance Score: {score:.2f}</small>
+        #         </div>
+        #         """, unsafe_allow_html=True)
 
         # Interactive visualization
         st.markdown("#### 📊 Interactive Feature Importance Chart")
@@ -459,69 +460,69 @@ st.info("💡 Correlation heatmap visualization available in Jupyter notebooks")
 st.markdown("---")
 
 # Impact on different models
-st.markdown("### 🤖 Impact on Model Performance")
+# st.markdown("### 🤖 Impact on Model Performance")
 
-st.markdown("""
-Feature selection benefits different models in different ways:
-""")
+# st.markdown("""
+# Feature selection benefits different models in different ways:
+# """)
 
-model_impact_tab1, model_impact_tab2, model_impact_tab3 = st.tabs([
-    "Neural Networks",
-    "Tree-based Models",
-    "Linear Models"
-])
+# model_impact_tab1, model_impact_tab2, model_impact_tab3 = st.tabs([
+#     "Neural Networks",
+#     "Tree-based Models",
+#     "Linear Models"
+# ])
 
-with model_impact_tab1:
-    st.markdown("""
-    #### Neural Networks (Our Best Model - 99.70%)
+# with model_impact_tab1:
+#     st.markdown("""
+#     #### Neural Networks (Our Best Model - 99.70%)
 
-    **Benefits of Feature Selection**:
-    - ✅ Fewer input neurons → simpler architecture
-    - ✅ Faster convergence during training
-    - ✅ Less prone to overfitting
-    - ✅ More stable gradients
-    - ✅ Better generalization
+#     **Benefits of Feature Selection**:
+#     - ✅ Fewer input neurons → simpler architecture
+#     - ✅ Faster convergence during training
+#     - ✅ Less prone to overfitting
+#     - ✅ More stable gradients
+#     - ✅ Better generalization
 
-    **Our Architecture**:
-    - Input layer: 10 neurons (selected features)
-    - Hidden layer 1: 100 neurons
-    - Hidden layer 2: 50 neurons
-    - Output layer: 1 neuron (defect probability)
+#     **Our Architecture**:
+#     - Input layer: 10 neurons (selected features)
+#     - Hidden layer 1: 100 neurons
+#     - Hidden layer 2: 50 neurons
+#     - Output layer: 1 neuron (defect probability)
 
-    Without feature selection, we'd need 21 input neurons and likely deeper architecture!
-    """)
+#     Without feature selection, we'd need 21 input neurons and likely deeper architecture!
+#     """)
 
-with model_impact_tab2:
-    st.markdown("""
-    #### Tree-based Models (Random Forest, Gradient Boosting)
+# with model_impact_tab2:
+#     st.markdown("""
+#     #### Tree-based Models (Random Forest, Gradient Boosting)
 
-    **Benefits of Feature Selection**:
-    - ✅ Faster tree construction
-    - ✅ Less memory consumption
-    - ✅ Clearer feature importance
-    - ✅ Better interpretability
-    - ✅ Reduced noise from irrelevant features
+#     **Benefits of Feature Selection**:
+#     - ✅ Faster tree construction
+#     - ✅ Less memory consumption
+#     - ✅ Clearer feature importance
+#     - ✅ Better interpretability
+#     - ✅ Reduced noise from irrelevant features
 
-    **Performance**:
-    - Random Forest: 99.40% accuracy with 10 features
-    - Gradient Boosting: 99.11% accuracy with 10 features
+#     **Performance**:
+#     - Random Forest: 99.40% accuracy with 10 features
+#     - Gradient Boosting: 99.11% accuracy with 10 features
 
-    Trees naturally perform feature selection, but pre-selection helps them focus on best features!
-    """)
+#     Trees naturally perform feature selection, but pre-selection helps them focus on best features!
+#     """)
 
-with model_impact_tab3:
-    st.markdown("""
-    #### Linear Models (Logistic Regression, SVM)
+# with model_impact_tab3:
+#     st.markdown("""
+#     #### Linear Models (Logistic Regression, SVM)
 
-    **Benefits of Feature Selection**:
-    - ✅ Reduced multicollinearity
-    - ✅ More stable coefficient estimates
-    - ✅ Better interpretability
-    - ✅ Faster computation
-    - ✅ Clearer decision boundaries
+#     **Benefits of Feature Selection**:
+#     - ✅ Reduced multicollinearity
+#     - ✅ More stable coefficient estimates
+#     - ✅ Better interpretability
+#     - ✅ Faster computation
+#     - ✅ Clearer decision boundaries
 
-    Linear models particularly benefit from feature selection as they can't handle redundancy well!
-    """)
+#     Linear models particularly benefit from feature selection as they can't handle redundancy well!
+#     """)
 
 st.markdown("---")
 
