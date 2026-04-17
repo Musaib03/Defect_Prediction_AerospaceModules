@@ -5,6 +5,7 @@ Home Page - Project Overview
 import streamlit as st
 import sys
 from pathlib import Path
+import pandas as pd
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -19,6 +20,28 @@ st.markdown('<h1 class="main-header">🏠 Project Overview</h1>', unsafe_allow_h
 
 st.markdown("---")
 
+# Problem statement (shown first)
+st.markdown("""
+### 🎯 Problem Statement
+
+The Problem statement is about **aerospace software defect prediction** where the goal is to identify risky modules
+*before deployment* using software complexity metrics from NASA datasets.
+
+In safety-critical aerospace systems, a missed defect can propagate to mission-impacting failures.
+            
+The project focuses on solving three core issues:
+- **Imbalanced defects**: defective modules are much fewer than clean modules
+- **High-dimensional metrics**: 21 metrics include redundancy and noise
+- **Explainability gap**: teams need clear reasons why code is flagged as defective
+
+This project solves the above by combining:
+1. **SMOTEENN** for class imbalance handling
+2. **Feature selection** to reduce 21 features to the most informative subset
+3. **Top-performing ML models** for reliable and explainable defect prediction
+""")
+
+st.markdown("---")
+
 # Project introduction
 st.markdown("""
 ## Aerospace Software Defect Prediction Using Machine Learning
@@ -29,21 +52,82 @@ features** out of 21 available software complexity metrics.
 
 """)
 
-# Problem statement
+st.markdown("---")
+
+# Defective code and 21-feature impact mapping
+st.markdown("### 💻 Defective Code Example and 21-Feature Impact")
+
 st.markdown("""
-### 🎯 Problem Statement
-
-Software defects in aerospace systems can have critical consequences. Traditional defect prediction approaches
-often struggle with:
-- **Class imbalance**: Very few defective modules compared to non-defective ones
-- **Feature redundancy**: Too many correlated metrics leading to overfitting
-- **Model complexity**: Difficult to interpret and computationally expensive
-
-This project addresses these challenges through:
-1. **SMOTEENN** for intelligent class balancing
-2. **Multi-method feature selection** for optimal feature subset
-3. **Ensemble and neural network models** for high accuracy
+The snippet below is a representative **high-defect-risk aerospace module**. It has deep nesting,
+high operator density, and large executable size, which are directly reflected in the 21 software metrics.
 """)
+
+st.code("""
+def route_critical_command(stream, cfg, state):
+    # Deeply nested logic and mixed responsibilities
+    if state.mode == "AUTO":
+        if stream.is_valid:
+            if stream.priority > cfg.priority_limit:
+                if state.fuel < cfg.min_fuel:
+                    for cmd in stream.commands:
+                        if cmd.enabled:
+                            if cmd.type == "NAV":
+                                if state.sensor_ok and not state.backup_locked:
+                                    execute_navigation(cmd, state)
+                                else:
+                                    state.errors += 1
+                            elif cmd.type == "CTRL":
+                                execute_control(cmd, state)
+                            else:
+                                state.errors += 1
+                else:
+                    state.last_action = "MONITOR"
+            else:
+                state.last_action = "SKIP"
+        else:
+            state.errors += 1
+    else:
+        state.last_action = "MANUAL"
+    return state
+""", language="python")
+
+feature_impact_df = pd.DataFrame([
+    {"Feature": "LOC_BLANK", "What It Captures": "Spacing/readability structure", "Effect on Code": "Medium"},
+    {"Feature": "BRANCH_COUNT", "What It Captures": "Total branching paths", "Effect on Code": "High"},
+    {"Feature": "LOC_CODE_AND_COMMENT", "What It Captures": "Mixed code+comment lines", "Effect on Code": "Medium"},
+    {"Feature": "LOC_COMMENTS", "What It Captures": "Documentation density", "Effect on Code": "Medium"},
+    {"Feature": "CYCLOMATIC_COMPLEXITY", "What It Captures": "Independent execution paths", "Effect on Code": "High"},
+    {"Feature": "DESIGN_COMPLEXITY", "What It Captures": "Decision and structure complexity", "Effect on Code": "High"},
+    {"Feature": "ESSENTIAL_COMPLEXITY", "What It Captures": "Unstructured logic complexity", "Effect on Code": "High"},
+    {"Feature": "LOC_EXECUTABLE", "What It Captures": "Executable lines of code", "Effect on Code": "High"},
+    {"Feature": "HALSTEAD_CONTENT", "What It Captures": "Information content", "Effect on Code": "Medium"},
+    {"Feature": "HALSTEAD_DIFFICULTY", "What It Captures": "Difficulty to implement/understand", "Effect on Code": "High"},
+    {"Feature": "HALSTEAD_EFFORT", "What It Captures": "Mental effort required", "Effect on Code": "High"},
+    {"Feature": "HALSTEAD_ERROR_EST", "What It Captures": "Estimated defects", "Effect on Code": "High"},
+    {"Feature": "HALSTEAD_LENGTH", "What It Captures": "Token length", "Effect on Code": "Medium"},
+    {"Feature": "HALSTEAD_LEVEL", "What It Captures": "Abstraction level", "Effect on Code": "High (lower is riskier)"},
+    {"Feature": "HALSTEAD_PROG_TIME", "What It Captures": "Estimated programming time", "Effect on Code": "Medium"},
+    {"Feature": "HALSTEAD_VOLUME", "What It Captures": "Program size in information units", "Effect on Code": "High"},
+    {"Feature": "NUM_OPERANDS", "What It Captures": "Operand usage volume", "Effect on Code": "Medium"},
+    {"Feature": "NUM_OPERATORS", "What It Captures": "Operator usage volume", "Effect on Code": "High"},
+    {"Feature": "NUM_UNIQUE_OPERANDS", "What It Captures": "Data variety", "Effect on Code": "Medium"},
+    {"Feature": "NUM_UNIQUE_OPERATORS", "What It Captures": "Control/operator diversity", "Effect on Code": "High"},
+    {"Feature": "LOC_TOTAL", "What It Captures": "Total module size", "Effect on Code": "High"},
+])
+
+impact_filter = st.multiselect(
+    "Filter by impact level",
+    ["High", "Medium", "High (lower is riskier)"],
+    default=["High", "Medium", "High (lower is riskier)"]
+)
+
+st.dataframe(
+    feature_impact_df[feature_impact_df["Effect on Code"].isin(impact_filter)],
+    use_container_width=True,
+    hide_index=True
+)
+
+st.info("All 21 NASA metrics contribute signals; high-impact metrics dominate defect probability for deeply nested and long procedural code.")
 
 st.markdown("---")
 

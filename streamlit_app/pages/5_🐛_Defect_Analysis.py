@@ -272,14 +272,23 @@ st.markdown("---")
 st.markdown("### 💻 Code Complexity Examples")
 
 st.markdown("""
-Here are synthetic code examples showing the type of complexity patterns associated with defects:
+Below are two high-defect-risk examples. Use the button in each example to refactor it into a low-defect-risk version.
 """)
 
-example_tab1, example_tab2 = st.tabs(["🔴 High Defect Risk", "✅ Low Defect Risk"])
+if "example1_low_risk" not in st.session_state:
+    st.session_state.example1_low_risk = False
+if "example2_low_risk" not in st.session_state:
+    st.session_state.example2_low_risk = False
 
-with example_tab1:
-    st.markdown("#### High Complexity Code (Defect Indicators Present)")
+st.markdown("#### Example 1: Flight Control Branching")
 
+if st.button(
+    "✅ Change" if not st.session_state.example1_low_risk else "🔄 ChangeAgain",
+    key="toggle_example_1"
+):
+    st.session_state.example1_low_risk = not st.session_state.example1_low_risk
+
+if not st.session_state.example1_low_risk:
     st.code("""
 def complex_aerospace_function(data, mode, config, params):
     # High ESSENTIAL_COMPLEXITY: deeply nested conditions
@@ -290,7 +299,6 @@ def complex_aerospace_function(data, mode, config, params):
                     for system in data.systems:
                         if system.status == 'critical':
                             if system.backup_active:
-                                # Critical path - multiple nested ifs
                                 result = emergency_procedure()
                             else:
                                 fallback_sequence()
@@ -305,11 +313,6 @@ def complex_aerospace_function(data, mode, config, params):
             return maintain_course()
     else:
         return ground_operations()
-
-    # High LOC_EXECUTABLE: 40+ lines
-    # High NUM_OPERATORS: Many conditional and arithmetic operators
-    # High HALSTEAD_EFFORT: Complex logic requiring high mental effort
-    # Low HALSTEAD_LEVEL: Low abstraction, procedural code
     """, language='python')
 
     st.markdown("""
@@ -318,47 +321,135 @@ def complex_aerospace_function(data, mode, config, params):
     - ❌ **LOC_EXECUTABLE = 42** (threshold: > 30)
     - ❌ **HALSTEAD_EFFORT = 8,523** (threshold: > 5,000)
     - ❌ **Nested depth = 6 levels** (threshold: > 4)
-
-    **Recommendation**: Refactor into smaller, testable functions
     """)
-
-with example_tab2:
-    st.markdown("#### Low Complexity Code (Clean Pattern)")
-
+else:
     st.code("""
-def simple_altitude_check(aircraft_data):
-    \"\"\"Check if aircraft altitude is within safe range.\"\"\"
-    max_altitude = get_max_altitude(aircraft_data.type)
-    current_altitude = aircraft_data.altitude
+def should_enter_emergency(data, config, params):
+    return params.emergency and data.fuel < config.min_fuel
 
-    if current_altitude > max_altitude:
-        trigger_altitude_warning()
-        return False
-    return True
+def process_critical_systems(systems):
+    for system in systems:
+        if system.status != 'critical':
+            continue
+        if system.backup_active:
+            emergency_procedure()
+        else:
+            fallback_sequence()
 
-def process_flight_data(data):
-    \"\"\"Process flight data with clear, simple logic.\"\"\"
-    if not validate_sensors(data):
-        log_error("Invalid sensor data")
-        return None
+def flight_mode_action(data, config, params):
+    if data.altitude <= config.max_alt:
+        return maintain_course()
+    if not should_enter_emergency(data, config, params):
+        return adjust_altitude(data)
+    process_critical_systems(data.systems)
+    return handle_emergency(data)
 
-    result = {
-        'altitude_ok': simple_altitude_check(data),
-        'fuel_ok': check_fuel_level(data),
-        'systems_ok': verify_systems(data)
-    }
-
-    return result
+def refactored_aerospace_function(data, mode, config, params):
+    if mode != 'flight':
+        return ground_operations()
+    return flight_mode_action(data, config, params)
     """, language='python')
 
     st.markdown("""
-    **Clean Code Indicators**:
-    - ✅ **Essential Complexity = 3** (low complexity)
-    - ✅ **LOC_EXECUTABLE = 15** (concise)
-    - ✅ **HALSTEAD_EFFORT = 1,245** (easy to understand)
-    - ✅ **Nested depth = 2 levels** (readable)
+    **Refactored (Low-Risk) Indicators**:
+    - ✅ **Essential Complexity ≈ 4**
+    - ✅ **LOC_EXECUTABLE reduced**
+    - ✅ **Lower Halstead effort via decomposition**
+    - ✅ **Shallower nesting and clearer intent**
+    """)
 
-    **Result**: Low defect probability - clear, maintainable code
+st.markdown("---")
+
+st.markdown("#### Example 2: Sensor Validation Pipeline")
+
+if st.button(
+    "✅ Change" if not st.session_state.example2_low_risk else "🔄ChangeAgain",
+    key="toggle_example_2"
+):
+    st.session_state.example2_low_risk = not st.session_state.example2_low_risk
+
+if not st.session_state.example2_low_risk:
+    st.code("""
+def validate_sensor_packet(packet, cfg, telemetry):
+    if packet is not None:
+        if packet.header_ok:
+            if packet.crc_ok:
+                if packet.timestamp > telemetry.last_timestamp:
+                    if packet.sensor_id in cfg.allowed_sensors:
+                        if packet.value is not None:
+                            if cfg.min_val <= packet.value <= cfg.max_val:
+                                if not telemetry.is_quarantine(packet.sensor_id):
+                                    telemetry.update(packet.sensor_id, packet.value)
+                                    return True
+                                else:
+                                    telemetry.raise_alarm("quarantined sensor")
+                            else:
+                                telemetry.raise_alarm("value out of bounds")
+                        else:
+                            telemetry.raise_alarm("missing value")
+                    else:
+                        telemetry.raise_alarm("unknown sensor")
+                else:
+                    telemetry.raise_alarm("old timestamp")
+            else:
+                telemetry.raise_alarm("crc failed")
+        else:
+            telemetry.raise_alarm("bad header")
+    else:
+        telemetry.raise_alarm("null packet")
+    return False
+    """, language='python')
+
+    st.markdown("""
+    **Defect Indicators**:
+    - ❌ Deeply nested condition chain
+    - ❌ High branch count and cyclomatic complexity
+    - ❌ Repeated alarm logic increases operator count
+    - ❌ Hard to test all paths
+    """)
+else:
+    st.code("""
+def reject(telemetry, reason):
+    telemetry.raise_alarm(reason)
+    return False
+
+def basic_packet_checks(packet, telemetry):
+    if packet is None:
+        return reject(telemetry, "null packet")
+    if not packet.header_ok:
+        return reject(telemetry, "bad header")
+    if not packet.crc_ok:
+        return reject(telemetry, "crc failed")
+    return True
+
+def semantic_checks(packet, cfg, telemetry):
+    if packet.timestamp <= telemetry.last_timestamp:
+        return reject(telemetry, "old timestamp")
+    if packet.sensor_id not in cfg.allowed_sensors:
+        return reject(telemetry, "unknown sensor")
+    if packet.value is None:
+        return reject(telemetry, "missing value")
+    if not (cfg.min_val <= packet.value <= cfg.max_val):
+        return reject(telemetry, "value out of bounds")
+    if telemetry.is_quarantine(packet.sensor_id):
+        return reject(telemetry, "quarantined sensor")
+    return True
+
+def validate_sensor_packet_refactored(packet, cfg, telemetry):
+    if not basic_packet_checks(packet, telemetry):
+        return False
+    if not semantic_checks(packet, cfg, telemetry):
+        return False
+    telemetry.update(packet.sensor_id, packet.value)
+    return True
+    """, language='python')
+
+    st.markdown("""
+    **Refactored (Low-Risk) Indicators**:
+    - ✅ Lower branch count per function
+    - ✅ Early-return guards reduce nesting depth
+    - ✅ Reusable error handler reduces duplicated operators
+    - ✅ Better testability and readability
     """)
 
 st.markdown("---")
